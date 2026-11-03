@@ -10,6 +10,7 @@ PROJECT_ROOT = Path(__file__).resolve().parent.parent
 DATA_DIR = PROJECT_ROOT / "data"
 RAW_DIR = DATA_DIR / "raw"
 PROCESSED_DIR = DATA_DIR / "processed"
+RAW_MOVIES_FILE = RAW_DIR / "movies.json"
 FIGURES_DIR = PROJECT_ROOT / "reports" / "figures"
 
 # ---------- API settings ----------
