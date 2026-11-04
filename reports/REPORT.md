@@ -105,8 +105,6 @@ released each year, so they describe this sample rather than the whole film mark
 
 Franchise films cost more on average; the two standalone films had a [higher/lower] median ROI, driven by *Titanic*.
 With only two standalone films, this comparison is indicative, not conclusive.
-Franchise films cost more on average; the two standalone films had a higher median ROI, driven by *Titanic*.
-With only two standalone films, this comparison is indicative, not conclusive.
 
 ### 4.7 Most successful franchises and directors
 
