@@ -82,3 +82,7 @@ FINAL_COLUMNS = [
     "production_countries", "vote_count", "vote_average", "popularity", "runtime",
     "overview", "spoken_languages", "poster_path", "cast", "cast_size", "director", "crew_size",
 ]
+
+# ---------- KPI settings (Phase 3) ----------
+MIN_BUDGET_MUSD_FOR_ROI = 10   # ROI rankings only use movies with a budget of at least 10M
+MIN_VOTES_FOR_RATING = 10      # rating rankings only use movies with at least 10 votes
