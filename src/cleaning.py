@@ -1,12 +1,16 @@
 """Cleaning and preprocessing functions for the raw TMDB Spark DataFrame (Phase 2)."""
 
+"""Cleaning and preprocessing functions for the raw TMDB Spark DataFrame (Phase 2)."""
 
+import logging
 import re
 
 from pyspark.sql import Column, DataFrame
 from pyspark.sql import functions as F
 
 from src import config
+
+logger = logging.getLogger(__name__)
 
 
 def drop_irrelevant_columns(df: DataFrame, columns: list[str] = config.COLUMNS_TO_DROP) -> DataFrame:
@@ -94,3 +98,20 @@ def replace_text_placeholders(df: DataFrame, columns: list[str] = config.TEXT_CO
         return F.when(~F.lower(text).isin(config.TEXT_PLACEHOLDERS), text)
 
     return df.withColumns({column: clean(column) for column in columns})
+
+def remove_bad_rows(df: DataFrame) -> DataFrame:
+    """Drop rows missing id/title, duplicate movies (same id) and rows with too few values.
+
+    Logs the row count after each rule, as evidence of what was removed.
+    """
+    logger.info("Rows at start: %d", df.count())
+
+    df = df.dropna(subset=config.REQUIRED_COLUMNS)          # first, so NULL ids are not "deduplicated"
+    logger.info("After dropping rows without %s: %d", config.REQUIRED_COLUMNS, df.count())
+
+    df = df.dropDuplicates(["id"])                           # same movie fetched twice -> keep one
+    logger.info("After removing duplicate ids: %d", df.count())
+
+    df = df.dropna(thresh=config.MIN_NON_NULL_VALUES)        # keep rows with >= 10 non-null values
+    logger.info("After keeping rows with >= %d non-null values: %d", config.MIN_NON_NULL_VALUES, df.count())
+    return df

@@ -52,6 +52,10 @@ MILLION = 1_000_000
 TEXT_COLUMNS = ["overview", "tagline"]
 TEXT_PLACEHOLDERS = ["", "no data", "no overview found.", "n/a", "none", "null"]
 
+# Row-quality rules
+REQUIRED_COLUMNS = ["id", "title"]   # rows missing either are dropped
+MIN_NON_NULL_VALUES = 10             # keep rows with at least this many non-null values
+
 
 # ---------- Movies to fetch (from the assignment; 0 is not a real movie) ----------
 MOVIE_IDS = [
