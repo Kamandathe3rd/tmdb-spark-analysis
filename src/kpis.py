@@ -1,12 +1,11 @@
 """KPI calculations and rankings for the cleaned TMDB movies (Phase 3)."""
 
-import re
 
 from pyspark.sql import Column, DataFrame, Window
 from pyspark.sql import functions as F
 from pyspark.sql.types import StringType
 
-from src import config
+from src import cleaning, config
 
 
 def add_financial_metrics(df: DataFrame) -> DataFrame:
@@ -64,7 +63,7 @@ def rank_movies(df: DataFrame, metric: str, ascending: bool = False, top_n: int 
 
 def has_item(column: str, value: str, sep: str = config.NAME_SEPARATOR) -> Column:
     """True if `value` is one of the sep-separated items in `column` (exact match, not a substring)."""
-    return F.array_contains(F.split(F.col(column), re.escape(sep)), value)
+    return F.array_contains(cleaning.split_names(column, sep), value)
 
 
 def search_movies(df: DataFrame, genres: list[str] | None = None, cast: list[str] | None = None,
@@ -129,5 +128,22 @@ def top_franchises(df: DataFrame, top_n: int = 10) -> DataFrame:
             F.round(F.mean("vote_average"), 2).alias("mean_rating"),
         )
         .orderBy(F.desc("total_revenue_musd"), "franchise")
+        .limit(top_n)
+    )
+
+def top_directors(df: DataFrame, top_n: int = 10) -> DataFrame:
+    """Most successful directors, ranked by total revenue of the movies they directed.
+
+    Co-directed movies (e.g. 'Anthony Russo|Joe Russo') count fully for EACH director.
+    """
+    return (
+        df.select(F.explode(cleaning.split_names("director")).alias("director"), "revenue_musd", "vote_average")
+        .groupBy("director")
+        .agg(
+            F.count("*").alias("movies"),
+            F.round(F.sum("revenue_musd"), 2).alias("total_revenue_musd"),
+            F.round(F.mean("vote_average"), 2).alias("mean_rating"),
+        )
+        .orderBy(F.desc("total_revenue_musd"), "director")
         .limit(top_n)
     )

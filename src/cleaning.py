@@ -22,6 +22,14 @@ def join_strings(names: Column, sep: str = config.NAME_SEPARATOR) -> Column:
     return F.when(F.size(names) > 0, F.concat_ws(sep, names))
 
 
+def split_names(column: str, sep: str = config.NAME_SEPARATOR) -> Column:
+    """Split "|"-separated text into a list, e.g. 'A|B' -> ['A', 'B'] (the reverse of join_strings).
+
+    The separator is escaped because split() treats its pattern as a regular expression, where | means OR.
+    """
+    return F.split(F.col(column), re.escape(sep))
+
+
 def join_names(array_col: str, field: str = "name", sep: str = config.NAME_SEPARATOR) -> Column:
     """Join one field of an array-of-structs column, e.g. genres.name -> 'Action|Drama'."""
     return join_strings(F.col(f"{array_col}.{field}"), sep)
@@ -53,7 +61,7 @@ def value_counts(df: DataFrame, column: str, split: bool = False,
 
     With split=True, "|"-separated text is split first, so "Action|Drama" counts once for each genre.
     """
-    values = F.explode_outer(F.split(column, re.escape(sep))) if split else F.col(column)
+    values = F.explode_outer(split_names(column, sep)) if split else F.col(column)
     return (
         df.select(values.alias(column))
         .groupBy(column)
