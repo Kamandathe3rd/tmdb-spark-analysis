@@ -23,6 +23,15 @@ MAX_RETRIES = 3        # attempts per movie for temporary errors
 # ---------- Cleaning settings (Phase 2) ----------
 COLUMNS_TO_DROP = ["adult", "imdb_id", "original_title", "video", "homepage"]
 
+# JSON-like columns to flatten: column -> which field of each item to keep
+JSON_NAME_FIELDS = {
+    "genres": "name",
+    "spoken_languages": "english_name",
+    "production_countries": "name",
+    "production_companies": "name",
+}
+NAME_SEPARATOR = "|"
+
 # ---------- Movies to fetch (from the assignment; 0 is not a real movie) ----------
 MOVIE_IDS = [
     0, 299534, 19995, 140607, 299536, 597, 135397,
