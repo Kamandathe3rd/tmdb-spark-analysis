@@ -32,6 +32,18 @@ JSON_NAME_FIELDS = {
 }
 NAME_SEPARATOR = "|"
 
+# Target data types (invalid values become NULL instead of crashing)
+COLUMN_TYPES = {
+    "id": "long",
+    "budget": "double",
+    "revenue": "double",
+    "popularity": "double",
+    "runtime": "int",
+    "vote_count": "int",
+    "vote_average": "double",
+}
+DATE_FORMAT = "yyyy-MM-dd"   # TMDB release_date format, e.g. 2019-04-24
+
 # ---------- Movies to fetch (from the assignment; 0 is not a real movie) ----------
 MOVIE_IDS = [
     0, 299534, 19995, 140607, 299536, 597, 135397,

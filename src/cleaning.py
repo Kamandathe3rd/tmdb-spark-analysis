@@ -57,3 +57,12 @@ def value_counts(df: DataFrame, column: str, split: bool = False,
         .count()
         .orderBy(F.desc("count"), F.asc_nulls_last(column))
     )
+
+def convert_datatypes(df: DataFrame) -> DataFrame:
+    """Enforce numeric types and parse release_date as a real date.
+
+    Invalid values become NULL (like pandas errors="coerce") instead of stopping the job.
+    """
+    new_columns = {column: F.col(column).try_cast(dtype) for column, dtype in config.COLUMN_TYPES.items()}
+    new_columns["release_date"] = F.try_to_date("release_date", config.DATE_FORMAT)
+    return df.withColumns(new_columns)
