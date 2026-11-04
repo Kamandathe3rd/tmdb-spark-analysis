@@ -256,7 +256,7 @@ The charts are saved in `reports/figures/` and used in the final report, `report
 
 The analysis of the selected movies produced the following findings:
 
-- Avatar had the highest box-office revenue (about $2.92B) and the highest profit in the dataset.
+- Avengers: Endgame had the highest box-office revenue (about $2.94B); Avatar had the highest profit and ROI.
 - Every movie in the sample earned far more than its production budget.
 - The Avengers Collection was the most successful franchise by total revenue.
 - James Cameron had the highest combined revenue among the directors (about $5.19B from two movies).

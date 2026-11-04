@@ -5,7 +5,7 @@
 ## 1. Summary
 
 - All **18 movies** analysed are blockbusters, and **every one earned far more than its budget**.
-- **Avatar** has the highest revenue (**~$2.92B**) and one of the highest returns on investment (**~12×**).
+- **Avengers:** **Endgame** has the highest revenue (**~$2.94B**); **Avatar** has the highest profit (~$2.69B) and ROI(**~12.3×**).
 - **The Avengers Collection** is the most successful franchise (4 films); **James Cameron** is the most successful
   director (**~$5.19B** from *Avatar* and *Titanic*).
 - Bigger budgets do **not** guarantee bigger returns: revenue is only loosely related to budget.
@@ -55,22 +55,22 @@ at least $10M, and rating rankings only movies with at least 10 votes. Searches 
 
 | Ranking | Top result |
 |---|---|
-| Highest revenue | *Avatar* (~$2.92B), then *Avengers: Endgame* (~$2.80B) |
-| Highest budget | [title] ([$…M]) |
-| Highest profit | [title] ([$…B]) |
-| Lowest profit | [title] ([$…B]), still hugely profitable |
-| Highest ROI (budget ≥ $10M) | [title] ([x]×) |
-| Lowest ROI (budget ≥ $10M) | [title] ([x]×) |
-| Most voted | [title] ([n] votes) |
-| Highest / lowest rated | [title] ([x]/10) / [title] ([x]/10) |
-| Most popular | [title] (TMDB popularity is a daily snapshot) |
+| Highest revenue | *Avengers: Endgame* ($2.94B), then *Avatar* ($2.92B) |
+| Highest budget | *Avengers: Endgame* ($356M); *Infinity War* and *The Last Jedi* tie second ($300M) |
+| Highest profit | *Avatar* ($2.69B), ahead of *Endgame* ($2.59B) thanks to a smaller budget |
+| Lowest profit | *Star Wars: The Last Jedi* ($1.03B), still hugely profitable |
+| Highest ROI (budget ≥ $10M) | *Avatar* (12.34×), then *Titanic* (11.32×) |
+| Lowest ROI (budget ≥ $10M) | *Star Wars: The Last Jedi* (4.45×) |
+| Most voted | *The Avengers* (40,259 votes) |
+| Highest / lowest rated | *Avengers: Endgame* (8.25/10) / *Jurassic World: Fallen Kingdom* (6.52/10) |
+| Most popular | *Avengers: Endgame* (64.93); Avengers films hold the top 4 places (daily TMDB snapshot) |
 
 ### 4.2 Revenue vs budget
 
 ![Revenue vs Budget](figures/01_revenue_vs_budget.png)
 
-All films sit far above the break-even line. Budget is only loosely related to revenue: *Avatar* (~$237M budget)
-earned more than twice as much as *Avengers: Age of Ultron* (~$365M).
+All films sit far above the break-even line. Budget is only loosely related to revenue:
+*Star Wars: The Last Jedi* cost $300M but earned $1.33B, while *Avatar* cost $237M and earned $2.92B.
 
 ### 4.3 ROI by genre
 
@@ -98,19 +98,21 @@ released each year, so they describe this sample rather than the whole film mark
 
 | | Franchise (16) | Standalone (2) |
 |---|---|---|
-| Mean revenue | [$…M] | ~$1,765M |
-| Median ROI | [x]× | ~9.6× |
-| Mean budget | [$…M] | ~$180M |
-| Mean rating | [x] | [x] |
+| Mean revenue | $[…]M | $[…]M |
+| Median ROI | […]× | […]× |
+| Mean budget | $[…]M | $[…]M |
+| Mean rating | […] | 7.44 |
 
+Franchise films cost more on average; the two standalone films had a [higher/lower] median ROI, driven by *Titanic*.
+With only two standalone films, this comparison is indicative, not conclusive.
 Franchise films cost more on average; the two standalone films had a higher median ROI, driven by *Titanic*.
 With only two standalone films, this comparison is indicative, not conclusive.
 
 ### 4.7 Most successful franchises and directors
 
-- **Franchises:** *The Avengers Collection* leads on total revenue ([$…B] from 4 films); *Avatar Collection*
-  earns the most per film (one film).
-- **Directors:** James Cameron (~$5.19B, 2 films), then Anthony and Joe Russo (~$4.85B each, credited for
+- **Franchises:** *The Avengers Collection* leads on total revenue (~$7.92B from 4 films); *Avatar Collection*
+  earns the most per film (~$2.92B from one film).
+- **Directors:** James Cameron (~$5.19B, 2 films), then Anthony and Joe Russo (~$4.99B each, credited for
   *Endgame* and *Infinity War*). Co-directed films count for each director, so totals overlap.
 
 ### 4.8 Search queries
