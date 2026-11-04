@@ -111,3 +111,23 @@ def compare_franchise_vs_standalone(df: DataFrame) -> DataFrame:
         )
         .orderBy("movie_type")
     )
+
+def top_franchises(df: DataFrame, top_n: int = 10) -> DataFrame:
+    """Most successful franchises (collections), ranked by total revenue.
+
+    Shows number of movies, total & mean budget, total & mean revenue and mean rating.
+    """
+    return (
+        df.filter(F.col("belongs_to_collection").isNotNull())
+        .groupBy(F.col("belongs_to_collection").alias("franchise"))
+        .agg(
+            F.count("*").alias("movies"),
+            F.round(F.sum("budget_musd"), 2).alias("total_budget_musd"),
+            F.round(F.mean("budget_musd"), 2).alias("mean_budget_musd"),
+            F.round(F.sum("revenue_musd"), 2).alias("total_revenue_musd"),
+            F.round(F.mean("revenue_musd"), 2).alias("mean_revenue_musd"),
+            F.round(F.mean("vote_average"), 2).alias("mean_rating"),
+        )
+        .orderBy(F.desc("total_revenue_musd"), "franchise")
+        .limit(top_n)
+    )
