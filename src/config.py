@@ -20,6 +20,9 @@ TMDB_BASE_URL = "https://api.themoviedb.org/3"
 REQUEST_TIMEOUT = 10   # seconds to wait for TMDB before giving up
 MAX_RETRIES = 3        # attempts per movie for temporary errors
 
+# ---------- Cleaning settings (Phase 2) ----------
+COLUMNS_TO_DROP = ["adult", "imdb_id", "original_title", "video", "homepage"]
+
 # ---------- Movies to fetch (from the assignment; 0 is not a real movie) ----------
 MOVIE_IDS = [
     0, 299534, 19995, 140607, 299536, 597, 135397,
