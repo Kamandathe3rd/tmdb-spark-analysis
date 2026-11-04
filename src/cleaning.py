@@ -1,11 +1,10 @@
 """Cleaning and preprocessing functions for the raw TMDB Spark DataFrame (Phase 2)."""
 
-"""Cleaning and preprocessing functions for the raw TMDB Spark DataFrame (Phase 2)."""
-
 import logging
 import re
+from pathlib import Path
 
-from pyspark.sql import Column, DataFrame
+from pyspark.sql import Column, DataFrame, SparkSession
 from pyspark.sql import functions as F
 
 from src import config
@@ -132,3 +131,14 @@ def select_final_columns(df: DataFrame, columns: list[str] = config.FINAL_COLUMN
     left_out = sorted(set(df.columns) - set(columns))
     logger.info("Not in the final layout (dropped): %s", left_out)
     return df.select(*columns)
+
+def save_clean_data(df: DataFrame, path: Path = config.CLEAN_MOVIES_PATH) -> Path:
+    """Save the cleaned DataFrame as Parquet (keeps the schema), replacing any older copy."""
+    df.coalesce(1).write.mode("overwrite").parquet(path.as_posix())   # 18 rows -> 1 file is enough
+    logger.info("Saved cleaned data to %s", path)
+    return path
+
+
+def load_clean_data(spark: SparkSession, path: Path = config.CLEAN_MOVIES_PATH) -> DataFrame:
+    """Load the cleaned movies saved by save_clean_data (the Phase 2 checkpoint)."""
+    return spark.read.parquet(path.as_posix())

@@ -11,6 +11,7 @@ DATA_DIR = PROJECT_ROOT / "data"
 RAW_DIR = DATA_DIR / "raw"
 PROCESSED_DIR = DATA_DIR / "processed"
 RAW_MOVIES_FILE = RAW_DIR / "movies.json"
+CLEAN_MOVIES_PATH = PROCESSED_DIR / "movies_clean.parquet"      # ← new line
 FIGURES_DIR = PROJECT_ROOT / "reports" / "figures"
 
 # ---------- API settings ----------
