@@ -1,5 +1,8 @@
 """Cleaning and preprocessing functions for the raw TMDB Spark DataFrame (Phase 2)."""
 
+
+import re
+
 from pyspark.sql import Column, DataFrame
 from pyspark.sql import functions as F
 
@@ -40,4 +43,17 @@ def extract_credits(df: DataFrame) -> DataFrame:
             "crew_size": F.size("credits.crew"),
         })
         .drop("credits")
+    )
+def value_counts(df: DataFrame, column: str, split: bool = False,
+                 sep: str = config.NAME_SEPARATOR) -> DataFrame:
+    """Spark version of pandas value_counts(): how often each value appears (NULLs included).
+
+    With split=True, "|"-separated text is split first, so "Action|Drama" counts once for each genre.
+    """
+    values = F.explode_outer(F.split(column, re.escape(sep))) if split else F.col(column)
+    return (
+        df.select(values.alias(column))
+        .groupBy(column)
+        .count()
+        .orderBy(F.desc("count"), F.asc_nulls_last(column))
     )
