@@ -66,3 +66,18 @@ def convert_datatypes(df: DataFrame) -> DataFrame:
     new_columns = {column: F.col(column).try_cast(dtype) for column, dtype in config.COLUMN_TYPES.items()}
     new_columns["release_date"] = F.try_to_date("release_date", config.DATE_FORMAT)
     return df.withColumns(new_columns)
+
+def replace_unrealistic_values(df: DataFrame, columns: list[str] = config.ZERO_MEANS_MISSING) -> DataFrame:
+    """Turn 0 (or negative) budget, revenue and runtime into NULL: TMDB uses 0 for 'unknown'."""
+    return df.withColumns({column: F.when(F.col(column) > 0, F.col(column)) for column in columns})
+
+
+def convert_to_millions(df: DataFrame) -> DataFrame:
+    """Add budget_musd and revenue_musd (million USD) and drop the original dollar columns."""
+    return (
+        df.withColumns({
+            "budget_musd": F.col("budget") / config.MILLION,
+            "revenue_musd": F.col("revenue") / config.MILLION,
+        })
+        .drop("budget", "revenue")
+    )

@@ -44,6 +44,11 @@ COLUMN_TYPES = {
 }
 DATE_FORMAT = "yyyy-MM-dd"   # TMDB release_date format, e.g. 2019-04-24
 
+# In TMDB, 0 means "unknown" for these columns, so 0 (or less) is treated as missing
+ZERO_MEANS_MISSING = ["budget", "revenue", "runtime"]
+MILLION = 1_000_000
+
+
 # ---------- Movies to fetch (from the assignment; 0 is not a real movie) ----------
 MOVIE_IDS = [
     0, 299534, 19995, 140607, 299536, 597, 135397,
