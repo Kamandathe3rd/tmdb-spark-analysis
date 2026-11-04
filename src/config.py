@@ -73,3 +73,11 @@ def get_api_key() -> str:
     if not api_key:
         raise RuntimeError("TMDB_API_KEY is missing - add it to the .env file in the project root")
     return api_key
+
+# Final column order required by the assignment
+FINAL_COLUMNS = [
+    "id", "title", "tagline", "release_date", "genres", "belongs_to_collection",
+    "original_language", "budget_musd", "revenue_musd", "production_companies",
+    "production_countries", "vote_count", "vote_average", "popularity", "runtime",
+    "overview", "spoken_languages", "poster_path", "cast", "cast_size", "director", "crew_size",
+]

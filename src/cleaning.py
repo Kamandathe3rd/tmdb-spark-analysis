@@ -122,3 +122,13 @@ def keep_released_movies(df: DataFrame) -> DataFrame:
     df = df.filter(F.col("status") == config.RELEASED_STATUS).drop("status")
     logger.info("Kept %d of %d movies with status '%s'", df.count(), total, config.RELEASED_STATUS)
     return df
+
+def select_final_columns(df: DataFrame, columns: list[str] = config.FINAL_COLUMNS) -> DataFrame:
+    """Return only the final columns, in the assignment's order; stop clearly if any is missing."""
+    missing = [column for column in columns if column not in df.columns]
+    if missing:
+        raise ValueError(f"Columns missing before final selection: {missing}")
+
+    left_out = sorted(set(df.columns) - set(columns))
+    logger.info("Not in the final layout (dropped): %s", left_out)
+    return df.select(*columns)
