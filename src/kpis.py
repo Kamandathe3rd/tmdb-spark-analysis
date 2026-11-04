@@ -1,8 +1,12 @@
 """KPI calculations and rankings for the cleaned TMDB movies (Phase 3)."""
 
+import re
+
 from pyspark.sql import Column, DataFrame, Window
 from pyspark.sql import functions as F
 from pyspark.sql.types import StringType
+
+from src import config
 
 
 def add_financial_metrics(df: DataFrame) -> DataFrame:
@@ -55,4 +59,29 @@ def rank_movies(df: DataFrame, metric: str, ascending: bool = False, top_n: int 
         .filter(F.col("rank") <= top_n)
         .select("rank", "title", metric, format_metric(F.col(metric), F.lit(metric)).alias("display"))
         .orderBy("rank", "title")
+    )
+
+
+def has_item(column: str, value: str, sep: str = config.NAME_SEPARATOR) -> Column:
+    """True if `value` is one of the sep-separated items in `column` (exact match, not a substring)."""
+    return F.array_contains(F.split(F.col(column), re.escape(sep)), value)
+
+
+def search_movies(df: DataFrame, genres: list[str] | None = None, cast: list[str] | None = None,
+                  director: str | None = None, sort_by: str = "vote_average",
+                  ascending: bool = False) -> DataFrame:
+    """Find movies that have ALL the given genres and cast members (and the director, if given)."""
+    condition = F.lit(True)
+    for genre in genres or []:
+        condition &= has_item("genres", genre)
+    for person in cast or []:
+        condition &= has_item("cast", person)
+    if director is not None:
+        condition &= has_item("director", director)
+
+    order = F.col(sort_by).asc() if ascending else F.col(sort_by).desc()
+    return (
+        df.filter(condition)
+        .select("title", "genres", "director", "vote_average", "runtime")
+        .orderBy(order, "title")
     )
