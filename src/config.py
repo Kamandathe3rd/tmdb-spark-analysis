@@ -48,6 +48,10 @@ DATE_FORMAT = "yyyy-MM-dd"   # TMDB release_date format, e.g. 2019-04-24
 ZERO_MEANS_MISSING = ["budget", "revenue", "runtime"]
 MILLION = 1_000_000
 
+# Text that means "no information" in overview / tagline (compared ignoring case and spaces)
+TEXT_COLUMNS = ["overview", "tagline"]
+TEXT_PLACEHOLDERS = ["", "no data", "no overview found.", "n/a", "none", "null"]
+
 
 # ---------- Movies to fetch (from the assignment; 0 is not a real movie) ----------
 MOVIE_IDS = [

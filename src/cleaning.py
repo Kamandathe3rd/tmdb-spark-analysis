@@ -81,3 +81,16 @@ def convert_to_millions(df: DataFrame) -> DataFrame:
         })
         .drop("budget", "revenue")
     )
+
+def clear_unrated_vote_average(df: DataFrame) -> DataFrame:
+    """A vote_average with no votes behind it is meaningless, so set it to NULL when vote_count is 0."""
+    return df.withColumn("vote_average", F.when(F.col("vote_count") > 0, F.col("vote_average")))
+
+
+def replace_text_placeholders(df: DataFrame, columns: list[str] = config.TEXT_COLUMNS) -> DataFrame:
+    """Replace placeholder text such as 'No Data' or empty strings with NULL (and trim spaces)."""
+    def clean(column: str) -> Column:
+        text = F.trim(F.col(column))
+        return F.when(~F.lower(text).isin(config.TEXT_PLACEHOLDERS), text)
+
+    return df.withColumns({column: clean(column) for column in columns})
