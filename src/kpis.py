@@ -85,3 +85,29 @@ def search_movies(df: DataFrame, genres: list[str] | None = None, cast: list[str
         .select("title", "genres", "director", "vote_average", "runtime")
         .orderBy(order, "title")
     )
+def add_movie_type(df: DataFrame) -> DataFrame:
+    """Label each movie 'Franchise' (belongs to a collection) or 'Standalone' (no collection)."""
+    return df.withColumn(
+        "movie_type",
+        F.when(F.col("belongs_to_collection").isNotNull(), "Franchise").otherwise("Standalone"),
+    )
+
+
+def compare_franchise_vs_standalone(df: DataFrame) -> DataFrame:
+    """Compare franchise and standalone movies: mean revenue, median ROI, mean budget, popularity, rating.
+
+    Results are rounded to 2 decimals because this is a final summary table.
+    """
+    return (
+        add_movie_type(df)
+        .groupBy("movie_type")
+        .agg(
+            F.count("*").alias("movies"),
+            F.round(F.mean("revenue_musd"), 2).alias("mean_revenue_musd"),
+            F.round(F.median("roi"), 2).alias("median_roi"),
+            F.round(F.mean("budget_musd"), 2).alias("mean_budget_musd"),
+            F.round(F.mean("popularity"), 2).alias("mean_popularity"),
+            F.round(F.mean("vote_average"), 2).alias("mean_rating"),
+        )
+        .orderBy("movie_type")
+    )
