@@ -115,3 +115,10 @@ def remove_bad_rows(df: DataFrame) -> DataFrame:
     df = df.dropna(thresh=config.MIN_NON_NULL_VALUES)        # keep rows with >= 10 non-null values
     logger.info("After keeping rows with >= %d non-null values: %d", config.MIN_NON_NULL_VALUES, df.count())
     return df
+
+def keep_released_movies(df: DataFrame) -> DataFrame:
+    """Keep only movies whose status is 'Released', then drop the status column."""
+    total = df.count()
+    df = df.filter(F.col("status") == config.RELEASED_STATUS).drop("status")
+    logger.info("Kept %d of %d movies with status '%s'", df.count(), total, config.RELEASED_STATUS)
+    return df

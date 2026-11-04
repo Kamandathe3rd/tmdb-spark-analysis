@@ -56,6 +56,8 @@ TEXT_PLACEHOLDERS = ["", "no data", "no overview found.", "n/a", "none", "null"]
 REQUIRED_COLUMNS = ["id", "title"]   # rows missing either are dropped
 MIN_NON_NULL_VALUES = 10             # keep rows with at least this many non-null values
 
+RELEASED_STATUS = "Released"         # TMDB status of movies already in cinemas
+
 
 # ---------- Movies to fetch (from the assignment; 0 is not a real movie) ----------
 MOVIE_IDS = [
